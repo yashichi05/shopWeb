@@ -144,7 +144,7 @@ div
 
               .card-body
                 p.card-text
-                  | {{item.description}}
+                  | {{item.title}}
                   
                 .d-flex.align-items-baseline(:class="item.origin_price?'justify-content-between':'justify-content-end'")
                   del.h6(v-if = "item.origin_price") {{item.origin_price | c_filter}}
