@@ -163,9 +163,10 @@ div
   footer.text-muted
     .container
       p.float-right
-        a(href='#') 回到最頂端
-      p 此為個人作品展示頁面，
-      p 使用的vue cli製作；已串接歐付寶付款API(測試用)；商店其他功能API，由六角學院課程提供
+        a.text-secondary(style="text-decoration: none;" href='#') 回到最頂端
+          i.fas.fa-angle-up.ml-2  
+      p 此為個人作品展示頁面
+      p 使用的vue cli製作；已串接歐付寶付款API(測試用)；商店其他功能API，由六角學院課程提供。
 </template>
 
 

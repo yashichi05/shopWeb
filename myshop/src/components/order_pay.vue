@@ -91,7 +91,7 @@ export default {
     },
     backURL() {
       let vm = this;
-      return `http://localhost:8080/#${vm.$route.fullPath}`;
+      return `https://yashichi05.github.io/vue/#${vm.$route.fullPath}`;
     },
     desc() {
       //op訂單描述
