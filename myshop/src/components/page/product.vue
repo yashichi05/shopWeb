@@ -94,7 +94,7 @@ div
                 td.text-right {{item.origin_price | c_filter}}
                 td.text-right {{item.price | c_filter}}
                 td
-                    span.text-success(v-if="item.is_enabled") 啟用
+                    span.text-success(v-if="item.is_enabled == 1") 啟用
                     span(v-else) 關閉
                 td
                     .d-flex

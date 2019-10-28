@@ -20,7 +20,7 @@ div
                 p.card-text {{prd_info.description}}
                 
                 p.mt-3.p-3.bg-light.card-text {{prd_info.content}}
-              div.d-flex.justify-content-between
+              div.d-flex.justify-content-between.mt-3
                 h5.w-100.text-right.card-text(v-if = "!prd_info.price") {{prd_info.origin_price | c_filter}}/{{prd_info.unit}}
                 del.card-text(v-if = "prd_info.price")
                   h5 {{prd_info.origin_price | c_filter}}/{{prd_info.unit}}
@@ -35,7 +35,7 @@ div
                   option(:value="num" v-for="num in 10" :key="num") 選購{{num}}{{prd_info.unit}}
 
 
-          button.btn.btn-primary(@click="addCart(prd_info.id,prd_info.num)" type='button') 
+          button.btn.btn-danger(@click="addCart(prd_info.id,prd_info.num)" type='button') 
             i.fas.fa-spinner.fa-spin(v-if="prd_info.id == status.addcart_id")
             | 加入購物車
   #buyModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
@@ -77,13 +77,13 @@ div
                   button.btn.btn-danger 送出訂單
   
   header
-    #navbarHeader.collapse.bg-dark.fixed-top
+    #navbarHeader.collapse.bg-danger.fixed-top
       .container
-        .row
-          table.table.table-striped.table-dark.mt-5
+        .row.mt-5
+          table.table.mt-2
             thead
               tr
-                th(scope='col') #
+                th(scope='col')   
                 th(scope='col') 品名
                 th(scope='col') 數量
                 th.text-right(scope='col') 單價
@@ -91,55 +91,54 @@ div
             tbody
                 tr(v-for="(prd,index) in carts" :key="index" )
                   th(scope='row')
-                    a(href="#" @click.prevent="rmCart(prd.id)") 
-                      <i class="far fa-trash-alt"></i>
+                    a.text-dark(href="#" @click.prevent="rmCart(prd.id)") 
+                      i.far.fa-trash-alt(style="opacity:0.5")
                   td {{prd.product.title}}
-                    span.text-danger(v-if="prd.coupon") (已使用優惠券)
+                    span(style="color:white;" v-if="prd.coupon") (已使用優惠券)
                   td {{prd.qty}}/{{prd.product.unit}}
                   td.text-right {{prd.product.price?prd.product.price:prd.product.origin_price | c_filter}}
                   td.text-right {{prd.total | c_filter}}
                 tr
                   td(colspan="5")
+                    hr
                   
                     .d-flex.justify-content-end.align-items-center
-                      .input-group.col-3
+                      .input-group.col-3(style="opacity: 0.7")
                         .input-group-prepend
-                          .btn.btn-outline-secondary(@click="usecp")  使用優惠券
-                        input.form-control(type='text', v-model="cp_code" aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default')
+                          .btn.btn-outline-dark(@click="usecp")  使用優惠券
+                        input.cusform.form-control.border.border-dark(type='text', v-model="cp_code" aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default')
                 
-                      h5.p-1 總價 : {{cart_total.total| c_filter}}
+                      h5.font-weight-bold.p-1.text-white 總價 : {{cart_total.total| c_filter}}
 
                 tr(v-if="cart_total.final_total !== cart_total.total")
                   td(colspan="5")
                     .d-flex.justify-content-end
-                      h5.p-1 優惠價 : {{cart_total.final_total| c_filter}}
+                      h5.font-weight-bold.p-1.text-white 優惠價 : {{cart_total.final_total| c_filter}}
                 tr
                   td(colspan="5")
-                    button.float-right.btn.btn-danger(v-if="carts.length !== 0" @click="buyform") 結帳去
-    .navbar.fixed-top.navbar-dark.bg-dark.shadow-sm
+                    button.float-right.btn.btn-dark(v-if="carts.length !== 0" @click="buyform") 結帳去
+    .navbar.fixed-top.navbar-danger.bg-danger.shadow-sm
       .container.d-flex.justify-content-between.position-relative
-        a.navbar-brand.d-flex.align-items-center(href='#')
-          svg.mr-2(xmlns='http://www.w3.org/2000/svg', width='20', height='20', fill='none', stroke='currentColor', stroke-linecap='round', stroke-linejoin='round', stroke-width='2', aria-hidden='true', viewBox='0 0 24 24', focusable='false')
-            path(d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z')
-            circle(cx='12', cy='13', r='4')
-          strong Album
+        a.navbar-brand.d-flex.align-items-center.text-white(href='#')
+          i.fas.fa-compact-disc
+          strong.ml-2 鍋蓋購物
         button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarHeader', aria-controls='navbarHeader', aria-expanded='false', aria-label='Toggle navigation')
-          <i class="fas fa-cart-arrow-down"></i>
+          i.fas.fa-cart-arrow-down.text-white(style="opacity:0.5")
         .cartcount.position-absolute.l-5.text-black.border.rounded-circle.bg-white {{cartCount}}
   main(role='main')
-    section.jumbotron.text-center
-      .container
-        h1.jumbotron-heading Album example
-        p.lead.text-muted
-          | Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.
-        p
-          a.btn.btn-primary.my-2(href='#') Main call to action
-          a.btn.btn-secondary.my-2(href='#') Secondary action
+    section.jumbotron.text-center.banner(:style="{ height: bannerHeight,}")
+      //- .container
+      //-   h1.jumbotron-heading Album example
+      //-   p.lead.text-muted
+      //-     | Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.
+      //-   p
+      //-     a.btn.btn-primary.my-2(href='#') Main call to action
+      //-     a.btn.btn-secondary.my-2(href='#') Secondary action
     .album.py-5.bg-light
       .container
         .row
         
-          .col-md-4(v-for="(item,index) in products" :key="item.id")
+          .col-md-4(v-if="item.is_enabled == 1" v-for="(item,index) in products" :key="item.id")
             .card.mb-4.shadow-sm
               div(:style="{backgroundImage: `url(${item.imageUrl})`}" style='height: 225px; background-size: cover; background-position: center')
 
@@ -164,55 +163,12 @@ div
   footer.text-muted
     .container
       p.float-right
-        a(href='#') Back to top
-      p Album example is © Bootstrap, but please download and customize it for yourself!
-      p
-        | New to Bootstrap? 
-        a(href='https://getbootstrap.com/') Visit the homepage
-        |  or read our 
-        a(href='/docs/4.3/getting-started/introduction/') getting started guide
-        | .
-
+        a(href='#') 回到最頂端
+      p 此為個人作品展示頁面，
+      p 使用的vue cli製作；已串接歐付寶付款API(測試用)；商店其他功能API，由六角學院課程提供
 </template>
 
-<style lang="sass" scoped>
-.divprd
-  height: 100%
 
-.jumbotron 
-	padding-top: 3rem 
-	padding-bottom: 3rem 
-	margin-bottom: 0 
-	background-color: #fff 
-	.container 
-		max-width: 40rem 
-@media (min-width :768px) 
-  .jumbotron 
-    padding-top: 6rem 
-    padding-bottom: 6rem
-.jumbotron 
-  p:last-child 
-		margin-bottom: 0 
-.jumbotron-heading 
-	font-weight: 300 
-footer 
-	padding-top: 3rem 
-	padding-bottom: 3rem 
-	p 
-		margin-bottom: .25rem 
-.cartcount
-  pointer-events: none
-  opacity: 0.4
-  display: flex
-  justify-content: center
-  align-items: center
-  right: 10px
-  bottom: 5px
-  width: 15px
-  height: 15px
-  font-size: 8px
-  font-weight: 800
-</style>
 
 <script>
 import pay from "./order_pay";
@@ -365,6 +321,13 @@ export default {
     },
   },
   computed: {
+    bannerHeight(){
+      let windowH = $(window).width();
+      let or_h = 628;
+      let or_w = 1200;
+      let cal = windowH/or_w;
+      return cal*or_h+'px'
+    },
     cartCount(){
       let vm = this;
       return vm.carts.length
@@ -387,6 +350,55 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+
+.banner
+  background-image: url('../assets/banner.png') 
+  background-position: center 50px 
+  background-size: 100% auto 
+  background-repeat: no-repeat
+.navbar
+  strong
+    margin-top: -3px
+.table th
+  border: none
+.table td
+  border: none
+.divprd
+  height: 100%
+
+.jumbotron 
+	padding-top: 3rem 
+	padding-bottom: 3rem 
+	margin-bottom: 0 
+	background-color: #fff 
+	.container 
+		max-width: 40rem 
+@media (min-width :768px) 
+  .jumbotron 
+    padding-top: 6rem 
+    padding-bottom: 6rem
+.jumbotron 
+  p:last-child 
+		margin-bottom: 0 
+.jumbotron-heading 
+	font-weight: 300 
+footer 
+	padding-top: 3rem 
+	padding-bottom: 3rem 
+	p 
+		margin-bottom: .25rem 
+.cartcount
+  pointer-events: none
+  opacity: 0.4
+  display: flex
+  justify-content: center
+  align-items: center
+  right: 10px
+  bottom: 5px
+  width: 15px
+  height: 15px
+  font-size: 8px
+  font-weight: 800
 .jumbotron 
 	padding-top: 3rem 
 	padding-bottom: 3rem 

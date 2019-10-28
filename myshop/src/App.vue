@@ -1,6 +1,8 @@
 <template lang="pug">
   #app
     // <HelloWorld/>
+
+    
     router-view
 </template>
 
