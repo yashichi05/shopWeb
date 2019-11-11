@@ -65,26 +65,27 @@ div
             
                 th 折扣碼
             
-                th.text-right(width="120") 折扣比例
+                th.d-none.d-lg-table-cell.d-xl-table-cell.text-right(width="120") 折扣比例
             
-                th.text-right(width="120") 到期日
+                th.d-none.d-lg-table-cell.d-xl-table-cell.text-right(width="120") 到期日
             
                 th(width="80") 啟用
             
-                th.text-center(width="120") 編輯
+                th.text-center(width="140") 編輯
         tbody
-            tr(v-for="(item,index) in cps" :key="item.id")
-                td {{item.title}}
-                td {{item.code}}
-                td {{item.percent}}
-                td {{item.due_date | stamp}}
-                td
-                    span.text-success(v-if="item.is_enabled") 啟用
-                    span(v-else) 關閉
-                td
-                    .d-flex
-                        button.btn.btn-outline-primary.btn-sm(@click="openModal(false,item)") 編輯
-                        button.btn.btn-outline-secondary.btn-sm(@click="delModal(item)") 刪除
+          template(v-for="(item,index) in cps" )
+              tr(:key="item.id")
+                  td {{item.title}}
+                  td {{item.code}}
+                  td.d-none.d-lg-table-cell.d-xl-table-cell {{item.percent}}
+                  td.d-none.d-lg-table-cell.d-xl-table-cell {{item.due_date | stamp}}
+                  td
+                      span.text-success(v-if="item.is_enabled") 啟用
+                      span(v-else) 關閉
+                  td
+                      .d-flex
+                          button.btn.btn-outline-primary.btn-sm(@click="openModal(false,item)") 編輯
+                          button.btn.btn-outline-secondary.btn-sm(@click="delModal(item)") 刪除
     pagination
 
 

@@ -21,7 +21,7 @@ export default new VueRouter({
     // 动态路径参数 以冒号开头
     // { path: '/', component: home ,meta:{requiresAuth: true}},
     {
-      path: '/admin', component: dashboard, children: [
+      path: '/admin',redirect:'/admin/product', component: dashboard, children: [
         { path: 'cus', component: cus },
         { path: 'product', component: product, meta: { requiresAuth: true } },
         { path: 'order', component: order, meta: { requiresAuth: true } },

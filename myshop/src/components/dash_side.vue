@@ -1,38 +1,54 @@
 <template>
   <div>
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+    <nav class="col-lg-2 d-lg-block bg-light sidebar">
       <div class="sidebar-sticky">
-        <ul class="nav flex-column">
+        <ul class="nav flex-lg-column">
           <h6
-          class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted"
-        >
-          <span>管理功能</span>
-          <a class="d-flex align-items-center text-muted" href="#">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
+            class="d-none d-lg-flex sidebar-heading justify-content-between align-items-center px-3 mt-4 mb-1 text-muted"
+          >
+            <span>管理功能</span>
+            <a class="d-flex align-items-center text-muted" href="#">
+              <span data-feather="plus-circle"></span>
+            </a>
+          </h6>
           <li class="nav-item">
-            <router-link class="nav-link" to="/admin/product"><span class="pr-2" data-feather="file"><i class="fas fa-anchor"></i></span>商品編輯</router-link>
+            <router-link class="nav-link" to="/admin/product">
+              <span class="pr-2" data-feather="file">
+                <i class="fas fa-anchor"></i>
+              </span>商品編輯
+            </router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/admin/order"><span class="pr-2" data-feather="file"><i class="fas fa-archway"></i></span>訂單列表</router-link>
+            <router-link class="nav-link" to="/admin/order">
+              <span class="pr-2" data-feather="file">
+                <i class="fas fa-archway"></i>
+              </span>訂單列表
+            </router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/admin/coupon"><span class="pr-2" data-feather="file"><i class="fab fa-angellist"></i></span>優惠券</router-link>
+            <router-link class="nav-link" to="/admin/coupon">
+              <span class="pr-2" data-feather="file">
+                <i class="fab fa-angellist"></i>
+              </span>優惠券
+            </router-link>
           </li>
         </ul>
 
         <h6
-          class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted"
+          class="d-none d-lg-flex sidebar-heading justify-content-between align-items-center px-3 mt-4 mb-1 text-muted"
         >
           <span>特殊功能</span>
           <a class="d-flex align-items-center text-muted" href="#">
             <span data-feather="plus-circle"></span>
           </a>
         </h6>
-        <ul class="nav flex-column mb-2">
+        <ul class="d-none d-lg-flex nav flex-column mb-2">
           <li class="nav-item">
-            <router-link class="nav-link" to="/admin/cus"><span class="pr-2" data-feather="file"><i class="fab fa-affiliatetheme"></i></span>模擬訂單</router-link>
+            <router-link class="nav-link" to="/admin/cus">
+              <span class="pr-2" data-feather="file">
+                <i class="fab fa-affiliatetheme"></i>
+              </span>測試訂單
+            </router-link>
           </li>
         </ul>
       </div>
@@ -41,7 +57,21 @@
 </template>
 
 <style scoped>
+@media (max-width: 995px) {
+  .sidebar {
+    width: 100vw;
+    padding: 80px 0 0 !important;
+    position: static !important;
 
+  }
+  .sidebar .sidebar-sticky ul{
+    justify-content: center;
+  }
+
+  .sidebar-sticky {
+    height: auto !important;
+  }
+}
 /*
    * Sidebar
    */
@@ -95,5 +125,4 @@
   font-size: 0.75rem;
   text-transform: uppercase;
 }
-
 </style>>

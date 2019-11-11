@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row">
         <side />
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-md-9 ml-lg-auto col-lg-10 px-4 offset-md-2 offset-lg-0">
           <router-view></router-view>
         </main>
       </div>
@@ -30,7 +30,7 @@ export default {
     alert
   },
   created() {
-    this.go()
+    // this.go()
   }
 
 };
@@ -53,7 +53,7 @@ body {
    */
 
 [role="main"] {
-  padding-top: 133px; /* Space for fixed navbar */
+  padding-top: 0px; /* Space for fixed navbar */
 }
 @media (min-width: 768px) {
   [role="main"] {

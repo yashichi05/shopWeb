@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
     //process.env.APIPATH 環境變數需至 config/prod.evn.js(正式版)) or dev.env.js 加入
     axios.post(api).then((response) => { //執行ajax
     if(response.data.success){
-      console.log(next)
+      // console.log(next)
       next(); //繼續前往
     }else{
       next({path:'/login'}) //轉向前往

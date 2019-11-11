@@ -85,7 +85,7 @@ div
               tr
                 th(scope='col')   
                 th(scope='col') 品名
-                th(scope='col') 數量
+                th(scope='col' width="80px") 數量
                 th.text-right(scope='col') 單價
                 th.text-right(scope='col') 總價
             tbody
@@ -93,8 +93,9 @@ div
                   th(scope='row')
                     a.text-dark(href="#" @click.prevent="rmCart(prd.id)") 
                       i.far.fa-trash-alt(style="opacity:0.5")
-                  td {{prd.product.title}}
-                    span(style="color:white;" v-if="prd.coupon") (已使用優惠券)
+                  td 
+                    .cartprdtitle {{prd.product.title}}
+                      span(style="color:white;" v-if="prd.coupon") (已使用優惠券)
                   td {{prd.qty}}/{{prd.product.unit}}
                   td.text-right {{prd.product.price?prd.product.price:prd.product.origin_price | c_filter}}
                   td.text-right {{prd.total | c_filter}}
@@ -102,8 +103,8 @@ div
                   td(colspan="5")
                     hr
                   
-                    .d-flex.justify-content-end.align-items-center
-                      .input-group.col-3(style="opacity: 0.7")
+                    .d-flex.justify-content-end.align-items-lg-center.flex-column.flex-lg-row.align-items-end
+                      .input-group.col-lg-3.col-7(style="opacity: 0.7")
                         .input-group-prepend
                           .btn.btn-outline-dark(@click="usecp")  使用優惠券
                         input.cusform.form-control.border.border-dark(type='text', v-model="cp_code" aria-label='Sizing example input', aria-describedby='inputGroup-sizing-default')
@@ -126,7 +127,7 @@ div
           i.fas.fa-cart-arrow-down.text-white(style="opacity:0.5")
         .cartcount.position-absolute.l-5.text-black.border.rounded-circle.bg-white {{cartCount}}
   main(role='main')
-    section.jumbotron.text-center.banner(:style="{ height: bannerHeight,}")
+    section.jumbotron.text-center.banner
       //- .container
       //-   h1.jumbotron-heading Album example
       //-   p.lead.text-muted
@@ -138,9 +139,9 @@ div
       .container
         .row
         
-          .col-md-4(v-if="item.is_enabled == 1" v-for="(item,index) in products" :key="item.id")
+          .col-lg-4.col-md-6(v-if="item.is_enabled == 1" v-for="(item,index) in products" :key="item.id")
             .card.mb-4.shadow-sm
-              div(:style="{backgroundImage: `url(${item.imageUrl})`}" style='height: 225px; background-size: cover; background-position: center')
+              .prdimg(:style="{backgroundImage: `url(${item.imageUrl})`}" style='background-size: cover; background-position: center')
 
               .card-body
                 p.card-text
@@ -162,7 +163,7 @@ div
         pagination
   footer.text-muted
     .container
-      p.float-right
+      p.gettop.float-right
         a.text-secondary(style="text-decoration: none;" href='#') 回到最頂端
           i.fas.fa-angle-up.ml-2  
       p 此為個人作品展示頁面
@@ -174,7 +175,6 @@ div
 <script>
 import pay from "./order_pay";
 import $ from "jquery";
-
 
 export default {
   components: {
@@ -191,58 +191,58 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
 export default {
   data() {
     return {
-      form:{
-        user:{
-          email:'',
-          name:'',
-          tel: '',
-          address:''
+      windowW:'',
+      form: {
+        user: {
+          email: "",
+          name: "",
+          tel: "",
+          address: ""
         },
-        message:''
+        message: ""
       },
-      cp_code:'',
-      cart_total:{total:'',final_total:''},
+      cp_code: "",
+      cart_total: { total: "", final_total: "" },
       carts: [],
       running: false,
       isLoading: false,
-      status:{loading_id:'',addcart_id:''},
+      status: { loading_id: "", addcart_id: "" },
       products: [],
-      prd_info:{}
+      prd_info: {}
     };
   },
   methods: {
-    usecp(){
- //沒輸入，預設1
+    usecp() {
+      //沒輸入，預設1
       const api = `${process.env.APIPATH}/api/${process.env.CUS_PATH}/coupon`;
       const vm = this;
-      const cp_code_data = {code: vm.cp_code}
+      const cp_code_data = { code: vm.cp_code };
       vm.isLoading = true;
       //process.env.APIPATH 環境變數需至 config/prod.evn.js(正式版)) or dev.env.js 加入
-      this.$http.post(api,{data:cp_code_data}).then(response => {
-        if (response.data.success){
-          console.log('OK');
+      this.$http.post(api, { data: cp_code_data }).then(response => {
+        if (response.data.success) {
+          console.log("OK");
           vm.getCart();
-        }else{
-          console.log('not')
+        } else {
+          console.log("not");
         }
-        
-        
-      vm.isLoading = false;
+
+        vm.isLoading = false;
       });
     },
-    rmCart(id){
- //沒輸入，預設1
+    rmCart(id) {
+      //沒輸入，預設1
       const api = `${process.env.APIPATH}/api/${process.env.CUS_PATH}/cart/${id}`;
       const vm = this;
       vm.isLoading = true;
       //process.env.APIPATH 環境變數需至 config/prod.evn.js(正式版)) or dev.env.js 加入
       this.$http.delete(api).then(response => {
         vm.getCart();
-        
-      vm.isLoading = false;
+
+        vm.isLoading = false;
       });
     },
-    getCart(){
+    getCart() {
       //沒輸入，預設1
       const api = `${process.env.APIPATH}/api/${process.env.CUS_PATH}/cart`;
       const vm = this;
@@ -253,43 +253,48 @@ export default {
         vm.cart_total.total = response.data.data.total;
         vm.cart_total.final_total = response.data.data.final_total;
       });
-
     },
-    createOrder(){
+    createOrder() {
       //沒輸入，預設1
       const api = `${process.env.APIPATH}/api/${process.env.CUS_PATH}/order`;
       const vm = this;
-      $('#buyModal').modal('hide');
-      $('.navbar-toggler').click();
+      $("#buyModal").modal("hide");
+      $(".navbar-toggler").click();
       vm.isLoading = true;
       //process.env.APIPATH 環境變數需至 config/prod.evn.js(正式版)) or dev.env.js 加入
-      this.$http.post(api,{data:vm.form}).then(response => {
+      this.$http.post(api, { data: vm.form }).then(response => {
         vm.isLoading = false;
-        vm.form = {user:{email:'',name:'',tel: '',address:''},message:''};
+        vm.form = {
+          user: { email: "", name: "", tel: "", address: "" },
+          message: ""
+        };
         vm.getCart();
         // vm.$router.push({ path: '/pay', query: { id: response.data.orderId }});
         // let routeData = vm.$router.push({ path: '/pay', query: { id: response.data.orderId }});
-        let routeData = vm.$router.resolve({path: '/pay', query: {id:  response.data.orderId }});
-        setTimeout(function(){window.open(routeData.href, '_blank');},1000)
+        let routeData = vm.$router.resolve({
+          path: "/pay",
+          query: { id: response.data.orderId }
+        });
+        setTimeout(function() {
+          window.open(routeData.href, "_blank");
+        }, 1000);
       });
-
     },
-    addCart(id,qty =1){
+    addCart(id, qty = 1) {
       //沒輸入，預設1
       const api = `${process.env.APIPATH}/api/${process.env.CUS_PATH}/cart`;
       const vm = this;
       vm.status.addcart_id = id;
       const cart = {
-        product_id : id,
+        product_id: id,
         qty
-      }
+      };
       //process.env.APIPATH 環境變數需至 config/prod.evn.js(正式版)) or dev.env.js 加入
-      this.$http.post(api,{data:cart}).then(response => {
-        vm.status.addcart_id =''
-        $('#prdModal').modal('hide');
+      this.$http.post(api, { data: cart }).then(response => {
+        vm.status.addcart_id = "";
+        $("#prdModal").modal("hide");
         vm.getCart();
       });
-
     },
     getprd(page = 1) {
       //沒輸入，預設1
@@ -303,10 +308,10 @@ export default {
         vm.isLoading = false;
       });
     },
-    buyform(){
-      $('#buyModal').modal('show');
+    buyform() {
+      $("#buyModal").modal("show");
     },
-    getprd_info(id){
+    getprd_info(id) {
       const api = `${process.env.APIPATH}/api/${process.env.CUS_PATH}/product/${id}`;
       const vm = this;
       vm.status.loading_id = id;
@@ -315,48 +320,69 @@ export default {
         vm.prd_info = response.data.product;
         vm.prd_info.num = 1;
         vm.isLoading = false;
-        vm.status.loading_id = '';
-        $('#prdModal').modal('show');
+        vm.status.loading_id = "";
+        $("#prdModal").modal("show");
       });
-
-    },
+    }
   },
   computed: {
-    bannerHeight(){
-      let windowH = $(window).width();
-      let or_h = 628;
-      let or_w = 1200;
-      let cal = windowH/or_w;
-      return cal*or_h+'px'
-    },
-    cartCount(){
+    cartCount() {
       let vm = this;
-      return vm.carts.length
+      return vm.carts.length;
     }
   },
   components: {
     pagination,
     ValidationObserver,
-    ValidationProvider 
+    ValidationProvider
   },
   created() {
     let vm = this;
     vm.getprd();
     vm.getCart();
-    vm.$bus.$on('getprd_emit', (page) => { //vue creat時 監聽getprd_emit事件
+    vm.$bus.$on("getprd_emit", page => {
+      //vue creat時 監聽getprd_emit事件
       vm.getprd(page);
     });
-  }
+    $(window).resize(function() {
+      let w_width=$(".prdimg").width();
+      $(".prdimg").css("height",w_width);
+    });
+  },
+  updated() {
+    let w_width=$(".prdimg").width();
+    $(".prdimg").css("height",w_width);
+  },
 };
 </script>
 
 <style lang="sass" scoped>
+@media (max-width: 920px)
+  .input-group.col-7
+    padding-right: 0 !important
+  .banner
+    // background-image: url('../assets/banner_mobile.png') !important
+    height: 60vw !important
+  footer
+    position: relative
+    .gettop
+      position: absolute
+      bottom: 15px
+      right: 30px
+@media (min-width: 768px) 
+  .jumbotron 
+    padding-top: 6rem 
+    padding-bottom: 6rem
+.cartprdtitle
+  max-height: 75px
+  overflow: hidden
 
 .banner
   background-image: url('../assets/banner.png') 
   background-position: center 50px 
   background-size: 100% auto 
   background-repeat: no-repeat
+  height: 50vw
 .navbar
   strong
     margin-top: -3px
@@ -374,20 +400,12 @@ export default {
 	background-color: #fff 
 	.container 
 		max-width: 40rem 
-@media (min-width :768px) 
-  .jumbotron 
-    padding-top: 6rem 
-    padding-bottom: 6rem
 .jumbotron 
   p:last-child 
 		margin-bottom: 0 
 .jumbotron-heading 
 	font-weight: 300 
-footer 
-	padding-top: 3rem 
-	padding-bottom: 3rem 
-	p 
-		margin-bottom: .25rem 
+
 .cartcount
   pointer-events: none
   opacity: 0.4
@@ -413,12 +431,8 @@ footer
 .jumbotron-heading 
 	font-weight: 300 
 footer 
-	padding-top: 3rem 
-	padding-bottom: 3rem 
+	padding-top: 3rem
+	padding-bottom: 3rem
 	p 
-    margin-bottom: .25rem 
-@media(min-width: 768px) 
-  .jumbotron 
-    padding-top: 6rem 
-    padding-bottom: 6rem
+		margin-bottom: .25rem 
 </style>

@@ -18,7 +18,6 @@ div
                                 p.card-text 成立時間: {{ordertemp.create_at | stamp}}
                                 hr
                                 p.card-text 付款時間: {{ordertemp.paid_date | stamp}}
-                                p.card-text 付款方式: {{ordertemp.payment_method}}
                                 p.card-text.float-right 總金額: {{ordertemp.total | c_filter}}
                                 p.card-text {{ordertemp.is_paid?'已付款':'未付款'}}
                                 hr
@@ -64,32 +63,36 @@ div
     table.table.mt-4
         thead
             tr 
-                th 時間
+                th.d-none.d-lg-table-cell.d-xl-table-cell 時間
             
-                th 訂單編號
+                th.d-none.d-lg-table-cell.d-xl-table-cell 訂單編號
             
                 th 付款
             
    
             
-                th 付款日期
+                th.d-none.d-lg-table-cell.d-xl-table-cell 付款日期
             
-                th.text-center 付款方式
-                th.text-center 顧客姓名
-                th 總金額
-                th.text-center(width="75") 修改
+                th.d-none.d-lg-table-cell.d-xl-table-cell.text-center 顧客姓名
+                th.text-right 總金額
+                th.text-center(width="75").d-none.d-lg-table-cell.d-xl-table-cell 修改
         tbody
-            tr(v-for="(item,index) in orders" :key="item.id")
-                td {{item.create_at | stamp}}
-                td {{item.id}}
-                td {{item.is_paid}}
+            template(v-for="(item,index) in orders" )
+                tr(colspan="3").d-lg-none(style="border-top:2px solid gray;")
+                    td
+                        strong {{item.id}}
+                    td.text-right
+                        button.btn.btn-outline-primary.btn-sm(@click="openModal(item)") 查看
+                tr(:key="item.id")
+                    td.d-none.d-lg-table-cell.d-xl-table-cell {{item.create_at | stamp}}
+                    td.d-none.d-lg-table-cell.d-xl-table-cell {{item.id}}
+                    td.text-warning {{item.is_paid}}
 
-                td {{item.paid_date| stamp}}
-                td {{item.payment_method}}
-                td {{item.user.name}}
-                td.text-right {{item.total | c_filter}}
-                td
-                    button.btn.btn-outline-primary.btn-sm(@click="openModal(item)") 編輯
+                    td.d-none.d-lg-table-cell.d-xl-table-cell {{item.paid_date| stamp}}
+                    td.d-none.d-lg-table-cell.d-xl-table-cell {{item.user.name}}
+                    td.text-danger.text-right {{item.total | c_filter}}
+                    td.d-none.d-lg-table-cell.d-xl-table-cell
+                        button.btn.btn-outline-primary.btn-sm(@click="openModal(item)") 查看
 
     pagination
 

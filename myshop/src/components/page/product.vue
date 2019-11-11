@@ -76,30 +76,34 @@ div
     table.table.mt-4
         thead
             tr 
-                th(width="120") 分類
+                th.d-none.d-lg-table-cell.d-xl-table-cell(width="120") 分類
             
                 th 名稱
             
-                th.text-right(width="120") 原價
+                th.d-none.d-lg-table-cell.d-xl-table-cell.text-right(width="120") 原價
             
-                th.text-right(width="120") 售價
+                th.d-none.d-lg-table-cell.d-xl-table-cell.text-right(width="120") 售價
             
-                th(width="80") 啟用
+                th(width="80").d-none.d-lg-table-cell.d-xl-table-cell 啟用
             
-                th.text-center(width="120") 編輯
+                th.text-center(width="140").d-none.d-lg-table-cell.d-xl-table-cell 編輯
         tbody
-            tr(v-for="(item,index) in products" :key="item.id")
-                td {{item.category}}
-                td {{item.title}}
-                td.text-right {{item.origin_price | c_filter}}
-                td.text-right {{item.price | c_filter}}
-                td
-                    span.text-success(v-if="item.is_enabled == 1") 啟用
-                    span(v-else) 關閉
-                td
-                    .d-flex
-                        button.btn.btn-outline-primary.btn-sm(@click="openModal(false,item)") 編輯
-                        button.btn.btn-outline-secondary.btn-sm(@click="delModal(item)") 刪除
+            template(v-for="(item,index) in products")
+                tr.d-lg-none(style="border-top:2px solid gray;")
+                    td(colspan="2") 
+                        strong {{item.title}}
+                tr( :key="item.id")
+                    td.d-none.d-lg-table-cell.d-xl-table-cell {{item.category}}
+                    td.d-none.d-lg-table-cell.d-xl-table-cell {{item.title}}
+                    td.d-none.d-lg-table-cell.d-xl-table-cell.text-right {{item.origin_price | c_filter}}
+                    td.d-none.d-lg-table-cell.d-xl-table-cell.text-right {{item.price | c_filter}}
+                    td
+                        span.text-success(v-if="item.is_enabled == 1") 啟用
+                        span(v-else) 關閉
+                    td
+                        .d-flex.justify-content-end
+                            button.btn.btn-outline-primary.btn-sm(@click="openModal(false,item)") 編輯
+                            button.btn.btn-outline-secondary.btn-sm(@click="delModal(item)") 刪除
     pagination
 
 
