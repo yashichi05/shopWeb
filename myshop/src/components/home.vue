@@ -13,24 +13,23 @@ div
           .card
             img.card-img-top(:src='prd_info.imageUrl')
             .card-body
-              h6.text-right.card-text {{prd_info.category}}
+              h5.text-right.pr-1
+                span.badge.badge-secondary.text-right.card-text {{prd_info.category}}
               .rounded.bg.border.border-primary.p-3
                 h5.card-title {{prd_info.title}}
                 hr
-                p.card-text {{prd_info.description}}
+                .card-text(v-html="prd_info.description")
                 
-                p.mt-3.p-3.bg-light.card-text {{prd_info.content}}
-              div.d-flex.justify-content-between.mt-3
-                h5.w-100.text-right.card-text(v-if = "!prd_info.price") {{prd_info.origin_price | c_filter}}/{{prd_info.unit}}
-                del.card-text(v-if = "prd_info.price")
-                  h5 {{prd_info.origin_price | c_filter}}/{{prd_info.unit}}
-                h5.card-text(v-if = "prd_info.price") {{prd_info.price | c_filter}}/{{prd_info.unit}}
+                .mt-3.p-3.bg-light.card-text(v-html="prd_info.content")
+              div.d-flex.mt-3(:class="prd_info.origin_price?'justify-content-between':'justify-content-end'")
+                del.card-text.h6(v-if = "prd_info.origin_price") {{prd_info.origin_price | c_filter}}/{{prd_info.unit}}
+                .h5.card-text {{prd_info.price | c_filter}}/{{prd_info.unit}}
   
 
         .modal-footer.justify-content-between
-          .input-group.col-4
+          .input-group.col-6.col-lg-4
               .input-group-prepend
-                  label.input-group-text(for='inputGroupSelect01') 選項
+                  label.input-group-text.d-none.d-lg-block(for='inputGroupSelect01') 選項
               select(v-model="prd_info.num")#inputGroupSelect01.custom-select
                   option(:value="num" v-for="num in 10" :key="num") 選購{{num}}{{prd_info.unit}}
 
@@ -86,7 +85,7 @@ div
                 th(scope='col')   
                 th(scope='col') 品名
                 th(scope='col' width="80px") 數量
-                th.text-right(scope='col') 單價
+                th.d-none.d-lg-table-cell.text-right(scope='col') 單價
                 th.text-right(scope='col') 總價
             tbody
                 tr(v-for="(prd,index) in carts" :key="index" )
@@ -97,7 +96,7 @@ div
                     .cartprdtitle {{prd.product.title}}
                       span(style="color:white;" v-if="prd.coupon") (已使用優惠券)
                   td {{prd.qty}}/{{prd.product.unit}}
-                  td.text-right {{prd.product.price?prd.product.price:prd.product.origin_price | c_filter}}
+                  td.d-none.d-lg-table-cell.text-right {{prd.product.price?prd.product.price:prd.product.origin_price | c_filter}}
                   td.text-right {{prd.total | c_filter}}
                 tr
                   td(colspan="5")
@@ -122,7 +121,7 @@ div
       .container.d-flex.justify-content-between.position-relative
         a.navbar-brand.d-flex.align-items-center.text-white(href='#')
           i.fas.fa-compact-disc
-          strong.ml-2 鍋蓋購物
+          strong.ml-2 廚具購物
         button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarHeader', aria-controls='navbarHeader', aria-expanded='false', aria-label='Toggle navigation')
           i.fas.fa-cart-arrow-down.text-white(style="opacity:0.5")
         .cartcount.position-absolute.l-5.text-black.border.rounded-circle.bg-white {{cartCount}}
@@ -166,7 +165,9 @@ div
       p.gettop.float-right
         a.text-secondary(style="text-decoration: none;" href='#') 回到最頂端
           i.fas.fa-angle-up.ml-2  
-      p 此為個人作品展示頁面
+      p 
+        |此為展示用頁面，
+        router-link.text-danger.text-decoration-none(to="/admin") 後台管理連結
       p 使用的vue cli製作；已串接歐付寶付款API(測試用)；商店其他功能API，由六角學院課程提供。
 </template>
 

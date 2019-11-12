@@ -202,7 +202,7 @@ export default {
             header:{'Content-Type': 'mutipart/form-data'}
         }).then((response) =>{
             vm.status.upfileLoading = false;
-            console.log(response.data);
+            // console.log(response.data);
             if(response.data.success){
                 // vm.prdtemp.imageUrl = response.data.imageUrl;
                 //教學影片中，因為他都把prdtemp 變成{}，裡面不存在imageUrl 所以需用set賦值
